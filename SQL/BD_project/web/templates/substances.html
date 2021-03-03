@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>ODISSEIA - Listar substâncias</title>
+    </head>
+
+    <body style="padding-top:10px; padding-left:20px; font-size: 20px">
+        {% if params.get("num_cedula") is none %}
+            <h2>Listar substâncias prescritas por médico:</h2>
+
+            <form method="post">
+                <div class="block">
+                    <label style="display: inline-block; width: 160px; text-align: right;">Número de cédula: </label>
+                    <input name="num_cedula">
+                </div>
+                <div class="block" style="display: inline">
+                    <label style="display: inline-block; width: 160px; text-align: right;">Mês: </label>
+                    <input name="mes" type="month">
+                </div>
+                <input type="submit" value="Listar">
+            </form>
+
+        {% elif cursor %}
+            <h2>Substâncias prescritas por {{ params.get("num_cedula") }} em {{ params.get("mes") }}:</h2>
+
+            {% if cursor.rowcount == 0 %}
+                <p>Sem substâncias prescritas</p>
+
+            {% else %}
+                <div style="padding-left:20px;">
+                    <table border="2px">
+                        <thead>
+                            <tr>
+                                <th>Substância</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in cursor %}
+                                <tr>
+                                    <td>{{ record[0] }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+
+        {% else %}
+            <p>Erro: Insucesso na obtenção dos dados!</p>
+        {% endif %}
+    </body>
+</html>

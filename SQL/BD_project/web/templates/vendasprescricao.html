@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>ODISSEIA - Venda com prescrição</title>
+    </head>
+
+    <body style="padding-top:10px; padding-left:20px; font-size: 20px">
+
+        {% if params.get("num_doente") is none %}
+            <h2>Listar prescrições do doente:</h2>
+
+            <form method="post">
+                <div class="block">
+                    <label style="display: inline-block; width: 160px; text-align: right;">Número de doente: </label>
+                    <input name="num_doente">
+                </div>
+                <input type="submit" value="Listar">
+            </form>
+
+        {% elif cursor %}
+            <h2>Prescrições do doente {{ params.get("num_doente") }}:</h2>
+
+            {% if cursor.rowcount == 0 %}
+                <p>Sem substâncias prescritas</p>
+
+            {% else %}
+                <div style="padding-left:20px;">
+                    <table border="2px">
+                        <thead>
+                            <tr>
+                                <th>Número de cédula</th>
+                                <th>Data</th>
+                                <th>Substância</th>
+                                <th>Quantidade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in cursor %}
+                                <tr>
+                                    <td>{{ record[0] }}</td>
+                                    <td>{{ record[2] }}</td>
+                                    <td>{{ record[3] }}</td>
+                                    <td>{{ record[4] }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <h2 style="padding-top: 20px">Insira dados para venda:</h2>
+                <form method="post">
+                    <div class="block">
+                        <label style="display: inline-block; width: 160px; text-align: right;">Número de venda: </label>
+                        <input name="num_venda">
+                    </div>
+                    <div class="block">
+                        <label style="display: inline-block; width: 160px; text-align: right;">Número de cédula: </label>
+                        <input name="num_cedula">
+                    </div>
+                    <div class="block">
+                        <label style="display: inline-block; width: 160px; text-align: right;">Data prescrição: </label>
+                        <input name="data_presc" type="date">
+                    </div>
+                    <div class="block">
+                        <label style="display: inline-block; width: 160px; text-align: right;">Data registo: </label>
+                        <input name="data_reg" type="date">
+                    </div>
+                    <div class="block">
+                        <label style="display: inline-block; width: 160px; text-align: right;">Substância: </label>
+                        <input name="substancia">
+                    </div>
+                    <div class="block">
+                        <label style="display: inline-block; width: 160px; text-align: right;">Quantidade: </label>
+                        <input name="quant">
+                    </div>
+                    <div class="block">
+                        <label style="display: inline-block; width: 160px; text-align: right;">Preço: </label>
+                        <input name="preco">
+                    </div>
+                    <div class="block" style="display: inline">
+                        <label style="display: inline-block; width: 160px; text-align: right;">Instituição: </label>
+                        <input name="inst">
+                    </div>
+                    <input type="submit" value="Realizar venda">
+                </form>
+            {% endif %}
+
+        {% elif params.get("num_venda") is not none %}
+            <h3>Venda realizada com sucesso!</h3>
+            <p style="padding-left: 25px; font-size: 18px"><a href="index">Voltar</a></p>
+
+        {% else %}
+            <p>Erro: Insucesso na obtenção dos dados!</p>
+        {% endif %}
+    </body>
+</html>

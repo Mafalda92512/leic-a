@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>ODISSEIA - Instituições</title>
+    </head>
+
+    <body style="padding-top:10px; padding-left:20px; font-size: 20px">
+        {% if params.get("nome_inst") is none %}
+            <h2>Insira operação pretendida e nome da instituição:</h2>
+            <form method="post">
+                <div class="block">
+                    <div class="block">
+                        <label style="display: inline-block; width: 170px; text-align: right;">Nome da instituição: </label>
+                        <input name="nome_inst">
+                    </div>
+                    <div class="block" style="display: inline-block;">
+                        <label style="display: inline-block; width: 170px; text-align: right;">Operação: </label>
+                        <select name="op">
+                            <option value="i">Inserir</option>
+                            <option value="e">Editar</option>
+                            <option value="d">Remover</option>
+                        </select>
+                    </div>
+                    <input type="submit" value="Realizar operação">
+                </div>
+            </form>
+
+        {% elif cursor %}
+            <h3>Operação realizada com sucesso!</h3>
+            <p style="padding-left: 25px; font-size: 18px"><a href="index">Voltar</a></p>
+
+        {% elif params.get("nome_inst") is not none %}
+            {% if params.get("op") == "i" %}
+                <h2>Insira dados da instituição {{ params.get("nome_inst") }}:</h2>
+                <form method="post">
+                    <div class="block" style="display: inline-block;">
+                        <label style="display: inline-block; width: 180px; text-align: right;">Tipo de instituição: </label>
+                        <select name="tipo">
+                            <option value="farmacia">Farmácia</option>
+                            <option value="laboratorio">Laboratório</option>
+                            <option value="clinica">Clínica</option>
+                            <option value="hospital">Hospital</option>
+                        </select>
+                    </div>
+                    <div class="block">
+                        <label style="display: inline-block; width: 180px; text-align: right;">Número de região: </label>
+                        <select name="num_reg">
+                            <option value="1">1 - Norte</option>
+                            <option value="2">2 - Centro</option>
+                            <option value="3">3 - Lisboa</option>
+                            <option value="4">4 - Alentejo</option>
+                            <option value="5">5 - Algarve</option>
+                        </select>
+                    </div>
+                    <div class="block" style="display: inline;">
+                        <label style="display: inline-block; width: 180px; text-align: right;">Número de concelho: </label>
+                        <input name="num_conc">
+                    </div>
+                    <input type="submit" value="Inserir">
+                </form>
+
+            {% elif params.get("op") == "e" %}
+                <h2>Insira dados da instituição {{ params.get("nome_inst") }} (preencha o(s) campo(s) que pretende atualizar):</h2>
+                <form method="post">
+                    <div class="block" style="display: inline-block;">
+                        <label style="display: inline-block; width: 180px; text-align: right;">Tipo de instituição: </label>
+                        <select name="tipo">
+                            <option value=""> </option>
+                            <option value="farmacia">Farmácia</option>
+                            <option value="laboratorio">Laboratório</option>
+                            <option value="clinica">Clínica</option>
+                            <option value="hospital">Hospital</option>
+                        </select>
+                    </div>
+                    <div class="block">
+                        <label style="display: inline-block; width: 180px; text-align: right;">Número de região: </label>
+                        <select name="num_reg">
+                            <option value=""> </option>
+                            <option value="1">1 - Norte</option>
+                            <option value="2">2 - Centro</option>
+                            <option value="3">3 - Lisboa</option>
+                            <option value="4">4 - Alentejo</option>
+                            <option value="5">5 - Algarve</option>
+                        </select>
+                    </div>
+                    <div class="block" style="display: inline;">
+                        <label style="display: inline-block; width: 180px; text-align: right;">Número de concelho: </label>
+                        <input name="num_conc">
+                    </div>
+                    <input type="submit" value="Editar">
+                </form>
+
+            {% elif params.get("op") == "d" %}
+                <h2>Remover a instituição {{ params.get("nome_inst") }} do sistema ODISSEIA?</h2>
+                <form method="post">
+                    <input type="submit" value="Remover">
+                </form>
+            {% endif %}
+
+        {% else %}
+            <p>Erro: Insucesso na obtenção dos dados!</p>
+        {% endif %}
+    </body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>ODISSEIA - Médicos</title>
+    </head>
+
+    <body style="padding-top:10px; padding-left:20px; font-size: 20px">
+        {% if params.get("num_cedula") is none %}
+            <h2>Insira operação pretendida e número de cédula:</h2>
+            <form method="post">
+                <div class="block">
+                    <div class="block">
+                        <label style="display: inline-block; width: 160px; text-align: right;">Número de cédula: </label>
+                        <input name="num_cedula">
+                    </div>
+                    <div class="block" style="display: inline-block;">
+                        <label style="display: inline-block; width: 160px; text-align: right;">Operação: </label>
+                        <select name="op">
+                            <option value="i">Inserir</option>
+                            <option value="e">Editar</option>
+                            <option value="d">Remover</option>
+                        </select>
+                    </div>
+                    <input type="submit" value="Realizar operação">
+                </div>
+            </form>
+
+        {% elif cursor %}
+            <h3>Operação realizada com sucesso!</h3>
+            <p style="padding-left: 25px; font-size: 18px"><a href="index">Voltar</a></p>
+
+        {% elif params.get("num_cedula") is not none %}
+            {% if params.get("op") == "i" %}
+                <h2>Insira dados do médico {{ params.get("num_cedula") }}:</h2>
+                <form method="post">
+                    <div class="block">
+                        <label style="display: inline-block; width: 160px; text-align: right;">Nome do médico: </label>
+                        <input name="nome_medico">
+                    </div>
+                    <div class="block" style="display: inline;">
+                        <label style="display: inline-block; width: 160px; text-align: right;">Especialidade: </label>
+                        <input name="especialidade">
+                    </div>
+                    <input type="submit" value="Inserir">
+                </form>
+
+            {% elif params.get("op") == "e" %}
+                <h2>Insira dados do médico {{ params.get("num_cedula") }} (preencha o(s) campo(s) que pretende atualizar):</h2>
+                <form method="post">
+                    <div class="block">
+                        <label style="display: inline-block; width: 160px; text-align: right;">Nome do médico: </label>
+                        <input name="nome_medico">
+                    </div>
+                    <div class="block" style="display: inline;">
+                        <label style="display: inline-block; width: 160px; text-align: right;">Especialidade: </label>
+                        <input name="especialidade">
+                    </div>
+                    <input type="submit" value="Editar">
+                </form>
+
+            {% elif params.get("op") == "d" %}
+                <h2>Remover o médico {{ params.get("num_cedula") }} do sistema ODISSEIA?</h2>
+                <form method="post">
+                    <input type="submit" value="Remover">
+                </form>
+            {% endif %}
+
+        {% else %}
+            <p>Erro: Insucesso na obtenção dos dados!</p>
+        {% endif %}
+    </body>
+</html>
